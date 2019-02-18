@@ -8,6 +8,9 @@ import java.util.*
 import android.widget.MediaController.MediaPlayerControl
 
 class MainActivity : AppCompatActivity(), MediaPlayerControl {
+    private String songTitle=&quot;&quot
+    private static final int NOTIFY_ID=1
+
     override fun isPlaying(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -90,6 +93,7 @@ class MainActivity : AppCompatActivity(), MediaPlayerControl {
         songView.setAdapter(songAdt)
 
         setController()
+
     }
 
 
@@ -111,4 +115,37 @@ class MainActivity : AppCompatActivity(), MediaPlayerControl {
             } while (musicCursor.moveToNext())
         }
     }
+
+    //play next
+    private fun playNext() {
+        musicSrv.playNext()
+        controller!!.show(0)
+    }
+
+    //play previous
+    private fun playPrev() {
+        musicSrv.playPrev()
+        controller!!.show(0)
+    }
+
+    override fun canPause(): Boolean {
+        return true
+    }
+
+    override fun canSeekBackward(): Boolean {
+        return true
+    }
+
+    override fun canSeekForward(): Boolean {
+        return true
+    }
+
+    @Override
+    override fun getCurrentPosition(): int {
+        if(musicSrv!=null &amp;&amp; musicBound &amp;&amp; musicSrv.isPng())
+        return musicSrv.getPosn();
+        else return 0;
+    }
+
+
 }
